@@ -1,0 +1,70 @@
+Enqueue Operation:
+
+1. Push into stack1:
+   To enqueue an element (add an element to the queue), push the element onto stack1.
+
+   plaintext
+   Enqueue(1):
+   stack1: 1
+   
+
+   plaintext
+   Enqueue(2):
+   stack1: 2  <- top
+          1
+
+   plaintext
+   Enqueue(3):
+   stack1: 3  <- top
+          2
+          1
+  
+
+ Dequeue Operation:
+
+1. Check if stack2 is empty:
+ If stack2 is empty, pop all elements from stack1 and push them onto stack2. This step is crucial to reverse the order of elements.
+
+   plaintext
+   Dequeue:
+   stack1:   <- top
+          3
+          2
+          1
+
+   stack2:
+
+2. Pop from stack2:
+   Pop the top element from `stack2`. This will be the element that was added to the queue first.
+
+   plaintext
+   Dequeue:
+   stack1:   <- top
+          3
+          2
+
+   stack2: 1  <- top
+   
+
+   The element `1` is dequeued.
+
+3. Subsequent Dequeues:
+   If you perform more dequeue operations, simply pop from `stack2`.
+
+   plaintext
+   Dequeue:
+   stack1:   <- top
+          3
+          2
+
+   stack2:   <- top
+   
+
+   The element `2` is dequeued.
+
+ Summary:
+
+- Enqueue: Push elements onto `stack1`.
+- Dequeue: If `stack2` is empty, transfer elements from `stack1` to `stack2` to reverse their order. Then, pop from `stack2`.
+
+
