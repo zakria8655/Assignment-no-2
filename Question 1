@@ -1,0 +1,32 @@
+import queue
+import threading
+import time
+import random
+REQUEST_TYPES = ['GET', 'POST', 'PUT', 'DELETE']
+AVERAGE_PROCESSING_TIMES = {'GET': 2, 'POST': 4, 'PUT': 3, 'DELETE': 5}
+def process_request(request):
+    request_id, request_type, processing_time = request
+    print(f"Processing Request {request_id}: {request_type}, Processing Time: {processing_time} seconds")
+    time.sleep(processing_time)
+    print(f"Request {request_id} completed.")
+def web_server(request_queue):
+    while True:
+        request = request_queue.get()
+        if request is None:
+            break  
+        process_request(request)
+def generate_requests(request_queue, num_requests):
+    for i in range(num_requests):
+        request_type = random.choice(REQUEST_TYPES)
+        processing_time = AVERAGE_PROCESSING_TIMES[request_type] + random.uniform(-1, 1)
+        request = (i + 1, request_type, max(processing_time, 0))  
+        request_queue.put(request)
+        time.sleep(1)  
+request_queue = queue.Queue()
+server_thread = threading.Thread(target=web_server, args=(request_queue,))
+server_thread.start()
+request_generation_thread = threading.Thread(target=generate_requests, args=(request_queue, 10))
+request_generation_thread.start()
+request_generation_thread.join()
+request_queue.put(None)
+server_thread.join()
